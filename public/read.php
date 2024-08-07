@@ -27,12 +27,15 @@
                         else{
                             echo "<p>Nenhum usuario para mostrar.</p>";
                         }
+                        $conn->close();
                     ?>
                 </ul>
             </form>    
             <?php
-                if(isset($_POST['delete']) && !empty($_POST['user_ids'])){
+                $conn = getDBConnnection();
 
+                if(isset($_POST['delete']) && !empty($_POST['user_ids'])){
+                    
                     $placeholders = "";
                     foreach ($_POST['user_ids'] as $user){
                         $placeholders = $placeholders . "?,";
@@ -57,6 +60,7 @@
                         echo '</script>';
                     }
                 }
+                $conn->close();
             ?>
         </div>
     </section>
