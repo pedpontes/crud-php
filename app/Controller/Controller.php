@@ -22,8 +22,5 @@ function getByIdUser($id) {
     return $user;
 }
 
-
-
-
 ?>
 

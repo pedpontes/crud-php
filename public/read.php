@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt">
-    <?php include "../head.php"; ?>
+    <?php include "head.php"; ?>
     <head>
-        <title>LIST</title>
+        <title>List</title>
     </head>
 <body>
-    <?php include "../header.php"; ?>
+    <?php include "header.php" ?>
     
     <section>
         <h1>Listagem de itens</h1>
         <div>
+            <form action="" method="post">
+                <ul>
+                    <?php
+                        $conn = getDBConnnection();
+                        
+                        $result = $conn->query("SELECT * FROM users");
+                        
+                        if($result-> num_rows > 0){
+                            
+                            foreach($result->fetch_all() as $row){
+                                echo "<li id='$row[0]'><input type='checkbox' name='user_ids[]' value='$row[0]'> ".$row[0]." - ".$row[1]."</li>";
+                            }
+                            echo '<input type="submit" name="delete" value="Excluir selecionados">';
+                        }
+                        else{
+                            echo "<p>Nenhum usuario para mostrar.</p>";
+                        }
+                    ?>
+                </ul>
+            </form>    
             <?php
-                include "../../app/db/db_connection.php";
-
-                $result = $conn->query("SELECT * FROM users");
-                
-                if($result-> num_rows > 0){
-                    echo "<form action='' method='POST'>";
-                    
-                    echo "<ul>";
-                    foreach($result->fetch_all() as $row){
-                        echo "<li id='$row[0]'><input type='checkbox' name='user_ids[]' value='$row[0]'> ".$row[0]." - ".$row[1]."</li>";
-                    }
-                    echo "</ul>";
-                    echo '<button type="submit" name="delete" value="delete">Excluir Selecionados</button>';
-                }
-                else{
-                    echo "<p>Nenhum usuario para mostrar.</p>";
-                }
-
                 if(isset($_POST['delete']) && !empty($_POST['user_ids'])){
+
                     $placeholders = "";
                     foreach ($_POST['user_ids'] as $user){
                         $placeholders = $placeholders . "?,";
@@ -54,12 +57,11 @@
                         echo '</script>';
                     }
                 }
-                    
             ?>
         </div>
     </section>
     
-    <?php include "../footer.php"; ?>
+    <?php include "footer.php"; ?>
 
 </body>
 </html>
